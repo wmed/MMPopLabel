@@ -29,7 +29,11 @@ typedef NS_OPTIONS(NSUInteger, MMPopLabelAnimationOptions) {
 @property (nonatomic, retain) UIColor *labelTextHighlightColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, retain) UIFont *labelFont UI_APPEARANCE_SELECTOR;
 @property (nonatomic, retain) UIFont *buttonFont UI_APPEARANCE_SELECTOR;
-
+// to override defaults
+@property (nonatomic) CGFloat popLabelSidePadding;
+@property (nonatomic) CGFloat popLabelViewPadding;
+@property (nonatomic) CGFloat popLabelCornerRadius;
+@property (nonatomic) CGFloat popLabelTipPadding;
 
 @property (nonatomic, weak) id<MMPopLabelDelegate> delegate;
 
@@ -40,6 +44,7 @@ typedef NS_OPTIONS(NSUInteger, MMPopLabelAnimationOptions) {
 - (void)popAtView:(UIView *)view;
 - (void)popAtBarButtonItem:(UIBarButtonItem *)barButtonItem;
 - (void)dismiss;
+- (void)resetDefaults;
 
 
 @end

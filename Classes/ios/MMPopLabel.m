@@ -100,11 +100,19 @@ typedef enum : NSUInteger {
         self.label.backgroundColor = [UIColor clearColor];
         self.label.numberOfLines = 0;
         
+        [self resetDefaults];
+        
         [self addSubview:self.label];
     }
     return self;
 }
 
+- (void)resetDefaults {
+    self.popLabelSidePadding = kMMPopLabelSidePadding;
+    self.popLabelViewPadding = kMMPopLabelViewPadding;
+    self.popLabelCornerRadius = kMMPopLabelCornerRadius;
+    self.popLabelTipPadding = kMMPopLabelTipPadding;
+}
 
 - (void)setupAppearance
 {
@@ -209,22 +217,22 @@ typedef enum : NSUInteger {
 
     _arrowType = MMPopLabelTopArrow;
 
-    CGPoint position = CGPointMake(center.x, center.y + self.frame.size.height / 2 + view.frame.size.height / 2 + kMMPopLabelViewPadding);
+    CGPoint position = CGPointMake(center.x, center.y + self.frame.size.height / 2 + view.frame.size.height / 2 + self.popLabelViewPadding);
 
     if (position.x + (self.bounds.size.width / 2) > [UIScreen mainScreen].applicationFrame.size.width) {
-        CGFloat diff = (self.bounds.size.width + self.frame.origin.x - [UIScreen mainScreen].applicationFrame.size.width) + kMMPopLabelSidePadding;
+        CGFloat diff = (self.bounds.size.width + self.frame.origin.x - [UIScreen mainScreen].applicationFrame.size.width) + self.popLabelSidePadding;
         position = CGPointMake(view.center.x - diff, position.y);
     } else if (self.frame.origin.x < 0) {
-        CGFloat diff = - self.frame.origin.x + kMMPopLabelSidePadding;
+        CGFloat diff = - self.frame.origin.x + self.popLabelSidePadding;
         position = CGPointMake(center.x + diff, center.y + view.frame.size.height / 2);
     }
 
     if (self.frame.origin.y + self.frame.size.height + (self.buttons.count > 0 ? 44 : 0) > [UIScreen mainScreen].applicationFrame.size.height) {
         _arrowType = MMPopLabelBottomArrow;
         position = CGPointMake(position.x,
-                               (self.frame.origin.y - view.frame.size.height / 2 - kMMPopLabelViewPadding));
+                               (self.frame.origin.y - view.frame.size.height / 2 - self.popLabelViewPadding));
     } else if (self.frame.origin.y < 0) {
-        position = CGPointMake(position.x, center.y + self.frame.size.height / 2 + view.frame.size.height / 2 + kMMPopLabelViewPadding);
+        position = CGPointMake(position.x, center.y + self.frame.size.height / 2 + view.frame.size.height / 2 + self.popLabelViewPadding);
     }
 
      CGPoint centerPoint = CGPointMake(position.x, position.y);
@@ -322,9 +330,9 @@ typedef enum : NSUInteger {
     //// Tip Drawing
     CGContextSaveGState(context);
     if (_arrowType == MMPopLabelBottomArrow) {
-        CGContextTranslateCTM(context, _viewCenter.x, rect.size.height - kMMPopLabelTipPadding);
+        CGContextTranslateCTM(context, _viewCenter.x, rect.size.height - self.popLabelTipPadding);
     } else if (_arrowType == MMPopLabelTopArrow) {
-        CGContextTranslateCTM(context, _viewCenter.x, kMMPopLabelTipPadding);
+        CGContextTranslateCTM(context, _viewCenter.x, self.popLabelTipPadding);
     }
     CGContextRotateCTM(context, -45 * M_PI / 180);
     
@@ -336,10 +344,10 @@ typedef enum : NSUInteger {
     
     //// ViewBackground Drawing
     UIBezierPath* viewBackgroundPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(rect.origin.x,
-                                                                                          rect.origin.y + kMMPopLabelTipPadding,
+                                                                                          rect.origin.y + self.popLabelTipPadding,
                                                                                           rect.size.width,
-                                                                                          rect.size.height - kMMPopLabelTipPadding * 2)
-                                                                  cornerRadius:kMMPopLabelCornerRadius];
+                                                                                          rect.size.height - self.popLabelTipPadding * 2)
+                                                                  cornerRadius:self.popLabelCornerRadius];
     [_labelColor setFill];
     [viewBackgroundPath fill];
 }
