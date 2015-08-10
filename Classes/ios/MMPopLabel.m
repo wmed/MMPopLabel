@@ -317,7 +317,7 @@ typedef enum : NSUInteger {
         self.alpha = 0.0f;
     } completion:^(BOOL finished) {
         self.hidden = YES;
-        [_delegate dismissedPopLabel:self];
+        if([_delegate respondsToSelector:@selector(dismissedPopLabel:)]) [_delegate dismissedPopLabel:self];
     }];
 }
 
@@ -361,7 +361,7 @@ typedef enum : NSUInteger {
 - (void)buttonPressed:(id)sender
 {
     UIButton *button = (UIButton *)sender;
-    if (_delegate != nil) {
+    if ([_delegate respondsToSelector:@selector(didPressButtonForPopLabel:atIndex:)]) {
         [_delegate didPressButtonForPopLabel:self atIndex:button.tag];
     }
     [self dismiss];
